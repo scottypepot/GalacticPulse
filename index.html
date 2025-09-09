@@ -7,19 +7,188 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>Galactic Pulse</h1>
-    <div id="healthBarContainer">
-        <div id="healthBar"></div>
-    </div>
-    <canvas id="gameCanvas" width="480" height="640"></canvas>
-    <div id="gameOverOverlay" style="display:none;">
-        <div class="overlay-content">
-            <h2>Game Over</h2>
-            <p id="finalScore"></p>
-            <p id="finalKills"></p>
-            <button id="restartBtn">Restart Game</button>
+    <!-- Home Screen -->
+    <div id="homeScreen" class="screen active">
+        <div class="game-logo">
+            <h1 class="game-title">GALACTIC PULSE</h1>
+            <div class="logo-animation">
+                <div class="pulse-ring"></div>
+                <div class="pulse-ring"></div>
+                <div class="pulse-ring"></div>
+            </div>
+        </div>
+        <div class="home-menu">
+            <button id="playBtn" class="menu-btn primary">PLAY</button>
+            <button id="settingsBtn" class="menu-btn">SETTINGS</button>
+            <div class="game-mode-selector">
+                <label>Game Mode:</label>
+                <select id="gameModeSelect">
+                    <option value="story">Story Mode</option>
+                    <option value="endless">Endless Mode</option>
+                    <option value="survival">Survival Mode</option>
+                </select>
+            </div>
         </div>
     </div>
+
+    <!-- Settings Screen -->
+    <div id="settingsScreen" class="screen">
+        <div class="settings-container">
+            <h2>SETTINGS</h2>
+            
+            <!-- Audio Settings -->
+            <div class="settings-section">
+                <h3>Audio</h3>
+                <div class="setting-group">
+                    <label>Master Volume</label>
+                    <div class="volume-control">
+                        <input type="range" id="masterVolume" min="0" max="100" value="70">
+                        <span id="masterVolumeValue">70%</span>
+                        <button id="masterMute" class="mute-btn">🔊</button>
+                    </div>
+                </div>
+                <div class="setting-group">
+                    <label>Music Volume</label>
+                    <div class="volume-control">
+                        <input type="range" id="musicVolume" min="0" max="100" value="50">
+                        <span id="musicVolumeValue">50%</span>
+                        <button id="musicMute" class="mute-btn">🔊</button>
+                    </div>
+                </div>
+                <div class="setting-group">
+                    <label>Sound Effects Volume</label>
+                    <div class="volume-control">
+                        <input type="range" id="sfxVolume" min="0" max="100" value="80">
+                        <span id="sfxVolumeValue">80%</span>
+                        <button id="sfxMute" class="mute-btn">🔊</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Gameplay Settings -->
+            <div class="settings-section">
+                <h3>Gameplay</h3>
+                <div class="setting-group">
+                    <label>Difficulty</label>
+                    <select id="difficulty">
+                        <option value="easy">Easy</option>
+                        <option value="medium" selected>Medium</option>
+                        <option value="hard">Hard</option>
+                    </select>
+                </div>
+                <div class="setting-group">
+                    <label>Control Scheme</label>
+                    <select id="controlScheme">
+                        <option value="arrows" selected>Arrow Keys + Space</option>
+                        <option value="wasd">WASD + F</option>
+                        <option value="mouse">Mouse Control</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Display Settings -->
+            <div class="settings-section">
+                <h3>Display</h3>
+                <div class="setting-group">
+                    <label>Display Mode</label>
+                    <select id="displayMode">
+                        <option value="windowed" selected>Windowed</option>
+                        <option value="fullscreen">Fullscreen</option>
+                    </select>
+                </div>
+                <div class="setting-group">
+                    <label>Resolution</label>
+                    <select id="resolution">
+                        <option value="480x640" selected>480 x 640</option>
+                        <option value="640x480">640 x 480</option>
+                        <option value="800x600">800 x 600</option>
+                        <option value="1024x768">1024 x 768</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="settings-actions">
+                <button id="saveSettingsBtn" class="menu-btn primary">SAVE</button>
+                <button id="backToHomeBtn" class="menu-btn">BACK</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Game Screen -->
+    <div id="gameScreen" class="screen">
+        <h1>Galactic Pulse</h1>
+        <div id="healthBarContainer">
+            <div id="healthBar"></div>
+        </div>
+        <canvas id="gameCanvas" width="480" height="640"></canvas>
+        <button id="pauseBtn" class="pause-btn">⏸</button>
+    </div>
+
+    <!-- Pause Screen -->
+    <div id="pauseScreen" class="screen">
+        <div class="pause-container">
+            <h2>GAME PAUSED</h2>
+            <div class="pause-menu">
+                <button id="resumeBtn" class="menu-btn primary">RESUME</button>
+                <button id="pauseSettingsBtn" class="menu-btn">SETTINGS</button>
+                <button id="quitToMenuBtn" class="menu-btn">QUIT TO MENU</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Game Over Modal -->
+    <div id="gameOverOverlay" style="display:none;">
+        <div class="modal-backdrop"></div>
+        <div class="modal-content">
+            <div class="death-icon">💀</div>
+            <h2>Mission Failed</h2>
+            <div class="death-message">Your ship has been destroyed!</div>
+            <div class="stats-container">
+                <div class="stat-item">
+                    <span class="stat-label">Final Score:</span>
+                    <span id="finalScore" class="stat-value">0</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Enemies Destroyed:</span>
+                    <span id="finalKills" class="stat-value">0</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Round Reached:</span>
+                    <span id="finalRound" class="stat-value">1</span>
+                </div>
+            </div>
+            <div class="modal-actions">
+                <button id="restartBtn" class="action-btn primary">Try Again</button>
+                <button id="backToMenuBtn" class="action-btn secondary">Main Menu</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Audio Elements -->
+    <audio id="backgroundMusic" loop preload="auto">
+        <source src="assets/audio/background-music.mp3" type="audio/mpeg">
+        <source src="assets/audio/game music.wav" type="audio/wav">
+        <source src="assets/audio/background-music.ogg" type="audio/ogg">
+    </audio>
+    
+    <audio id="playerLossSound" preload="auto">
+        <source src="assets/audio/player-loss.mp3" type="audio/mpeg">
+        <source src="assets/audio/player loss.wav" type="audio/wav">
+        <source src="assets/audio/player-loss.ogg" type="audio/ogg">
+    </audio>
+    
+    <audio id="playerWinSound" preload="auto">
+        <source src="assets/audio/player-win.mp3" type="audio/mpeg">
+        <source src="assets/audio/player win.wav" type="audio/wav">
+        <source src="assets/audio/player-win.ogg" type="audio/ogg">
+    </audio>
+    
+    <audio id="roundFinishSound" preload="auto">
+        <source src="assets/audio/round-finish.mp3" type="audio/mpeg">
+        <source src="assets/audio/round finish.wav" type="audio/wav">
+        <source src="assets/audio/round-finish.ogg" type="audio/ogg">
+    </audio>
+
     <script src="game.js"></script>
 </body>
 </html>
