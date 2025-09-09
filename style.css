@@ -1,0 +1,15 @@
+body {
+    margin: 0;
+    background: #000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+#gameCanvas {
+    background: linear-gradient(to bottom, #111 0%, #222 100%);
+    display: block;
+    border: 2px solid #fff;
+    box-shadow: 0 0 20px #0ff;
+}
